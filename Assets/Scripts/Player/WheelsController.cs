@@ -42,32 +42,31 @@ public class WheelsController : PartController
         if ((varStats.currentSpeed < activeStats.maxSpeed.value && !Reverse) || (varStats.currentSpeed > -activeStats.maxSpeed.value && Reverse))
         {
             varStats.currentSpeed += accel * Time.smoothDeltaTime;
-            Debug.Log(varStats.currentSpeed);
+
         }
-        RaycastHit2D hit;
-        if (Physics2D.Raycast(transform.position,transform.up*-1,hitBox.size.y))
+        RaycastHit2D[] hits;
+        hits= Physics2D.BoxCastAll(transform.position,0.75f*new Vector2(transform.localScale.x*GetComponent<RectTransform>().rect.width, transform.localScale.y * GetComponent<RectTransform>().rect.height),transform.eulerAngles.x,transform.right,1.0f);
+        foreach(var hit in hits)
         {
-            if ((hit = Physics2D.Raycast(transform.position, transform.right * (Reverse ? -1 : 1), hitBox.size.x + 0.4f)  ).rigidbody == null ||hit.transform!=transform)
+            if (hit.transform == transform||hit.transform==transform.parent|| hit.transform == null)
             {
                 mech.Translate(mech.right * varStats.currentSpeed * Time.smoothDeltaTime, Space.World);
             }
-            else
+            else if(hit.transform.name.Contains("Mech"))
             {
-                if (hit.transform.name.Contains("Mech"))
                 {
-                    Debug.Log(hit.transform.name);
-
                     MechController other = hit.transform.GetComponent<MechController>();
                     mech.GetComponent<Rigidbody2D>().AddForce(mech.right * ((other.wheelsController.varStats.currentAcceleration
                         + other.wheelsController.varStats.currentSpeed) / (varStats.currentAcceleration + varStats.currentSpeed))
                         * -1 * hit.transform.GetComponent<Rigidbody2D>().mass / mech.GetComponent<Rigidbody2D>().mass, ForceMode2D.Impulse); ;
                 }
                 varStats.currentSpeed = 0;
+                break;
             }
-        }
-        else
-        {
-            varStats.currentSpeed = 0;
+            else
+            {
+                varStats.currentSpeed = 0;
+            }
         }
         transform.parent.GetComponentInChildren<BodyController>().moving = true;
     }

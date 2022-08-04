@@ -32,7 +32,7 @@ public class MechController : MonoBehaviour
         Body.localPosition = Vector2.zero;
         Body.localPosition = Body.localPosition+ new Vector3(0, Wheels.localScale.y*Wheels.rect.height, 0);
         Head.localPosition = Body.localPosition+ new Vector3(0, (Body.localScale.y *Body.rect.height)/2 + (Head.localScale.y*Head.rect.height)/2, 0);
-        Arms.localPosition= -new Vector3(armsOffset.x, armsOffset.y-(Body.localPosition.y*Body.localScale.y*Body.rect.height)/4, 0);
+        Arms.localPosition = new Vector3(armsOffset.x-Arms.localScale.x*Arms.rect.x/2, armsOffset.y+(Body.localPosition.y*Body.localScale.y*Body.rect.height)/4, 0);
         Arms.localEulerAngles = Vector3.zero;
         Wheels.localPosition= Body.localPosition- new Vector3(0, (Body.localScale.y*Body.rect.height)/ 2 + (Wheels.localScale.y*Wheels.rect.height)/ 2, 0);
         GetComponent<BoxCollider2D>().size= new Vector2(
