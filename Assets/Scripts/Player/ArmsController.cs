@@ -38,7 +38,6 @@ public class ArmsController : PartController
         reversed = false;
     }
 
-
     public void RotateArm(bool Reverse, bool fromTrigger = false)
     {
         if (rebound && !fromTrigger || varStats.currentActivationHealth <= 0)
@@ -98,5 +97,5 @@ public class ArmsController : PartController
         gameObject.GetComponent<Rigidbody2D>().mass = varStats.currentWeight;
         gameObject.GetComponent<Collider2D>().isTrigger = false;
     }
-  
+
 }

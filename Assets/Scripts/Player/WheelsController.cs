@@ -42,6 +42,7 @@ public class WheelsController : PartController
         if ((varStats.currentSpeed < activeStats.maxSpeed.value && !Reverse) || (varStats.currentSpeed > -activeStats.maxSpeed.value && Reverse))
         {
             varStats.currentSpeed += accel * Time.smoothDeltaTime;
+
         }
         RaycastHit2D[] hits;
         hits= Physics2D.BoxCastAll(transform.position,0.75f*new Vector2(transform.localScale.x*GetComponent<RectTransform>().rect.width, transform.localScale.y * GetComponent<RectTransform>().rect.height),transform.eulerAngles.x,transform.right,1.0f);

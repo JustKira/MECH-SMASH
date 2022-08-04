@@ -39,7 +39,6 @@ public class MechController : MonoBehaviour
             Wheels.rect.width * Wheels.localScale.x>Body.rect.width*Body.localScale.x? Wheels.rect.width * Wheels.localScale.x: Body.rect.width * Body.localScale.x,
             Head.position.y + Head.localScale.y * Head.rect.height/2 - (Wheels.position.y - Wheels.rect.height * Wheels.localScale.y/2));
         GetComponent<BoxCollider2D>().offset = Body.localPosition;
-        
     }
 
     // Update is called once per frame
