@@ -29,8 +29,9 @@ public class BodyController : PartController
     // Update is called once per frame
     void Update()
     {
-        if (transform.parent != null && transform.parent.name.Contains("Mech"))
+        if (transform.parent != null && transform.parent.name.ToLower().Contains("mech"))
         {
+            
             varStats.currentSpeed = transform.parent.GetComponent<MechController>().wheelsController.varStats.currentSpeed;
             varStats.currentAcceleration = transform.parent.GetComponent<MechController>().wheelsController.varStats.currentAcceleration;
         }
