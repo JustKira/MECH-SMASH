@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class ArmsController : PartController
 {
     public ArmStatsManager activeStats;
@@ -11,6 +10,7 @@ public class ArmsController : PartController
     public float startingAngle;
     private bool rebound = false;
     public bool reversed = false;
+    public Vector3 worldPos = Vector3.zero;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +28,7 @@ public class ArmsController : PartController
     private void Update()
     {
         RotateArm(reversed);
+        worldPos = transform.position;
     }
     void rotateUp()
     {
@@ -74,7 +75,8 @@ public class ArmsController : PartController
         }
         rebound = false;
     }
-    public void Deactivate()
+    
+    public override void Deactivate()
     {
 
         StartCoroutine(deactivate());
@@ -89,13 +91,10 @@ public class ArmsController : PartController
         varStats.currentActivationHealth = 0;
         this.enabled = false;
     }
-    public void Detach()
+    public override void Detach()
     {
         varStats.currentAttachmentHealth = 0;
-        transform.parent = null;
-        gameObject.AddComponent<Rigidbody2D>().isKinematic = false;
-        gameObject.GetComponent<Rigidbody2D>().mass = varStats.currentWeight;
         gameObject.GetComponent<Collider2D>().isTrigger = false;
+        transform.SetParent(transform.parent.parent, false);
     }
-
 }
