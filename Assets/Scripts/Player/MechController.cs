@@ -15,6 +15,13 @@ public class MechController : MonoBehaviour
     public Vector2 armsOffset = new Vector2(0,0);
     [HideInInspector]
     public int totalWeight;
+
+
+
+    public int playerIndex = 0;
+
+    public Vector2 dir = Vector2.zero;
+    
     // Start is called before the first frame update
     void Awake()
     {
@@ -50,6 +57,15 @@ public class MechController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        dir.x += Input.GetKey(ControlSelector.Instance.controls[playerIndex].right) ? 1*(transform.rotation.eulerAngles.y==0?-1:1) : 0;
+        dir.x += Input.GetKey(ControlSelector.Instance.controls[playerIndex].left) ? -1 * (transform.rotation.eulerAngles.y == 0 ? -1 : 1) : 0;
+        dir.y += Input.GetKey(ControlSelector.Instance.controls[playerIndex].up) ? 1 : 0;
+        dir.y += Input.GetKey(ControlSelector.Instance.controls[playerIndex].down) ? -1 : 0;
         
+        if (dir.x != 0)
+            wheelsController.Move(dir.x > 0);
+        if(dir.y != 0)
+            armsController.RotateArm(dir.y > 0);
+        dir = Vector2.zero;
     }
 }

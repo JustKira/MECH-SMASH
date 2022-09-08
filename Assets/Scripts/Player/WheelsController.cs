@@ -26,10 +26,7 @@ public class WheelsController : PartController
     }
     void Update()
     {
-        if (transform.parent != null && transform.parent.name.ToLower().Contains("mech"))
-        {
-            Move(reverse);  
-        }
+        
     }
 
     public void Move(bool Reverse)

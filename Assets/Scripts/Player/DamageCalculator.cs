@@ -43,7 +43,6 @@ public class DamageCalculator : MonoBehaviour
             / (Player.currentSpeed + Player.currentSpeed)!=0? (Player.currentSpeed + Player.currentSpeed):1 
             * (Other.currentWeight +1)
             /( Player.currentWeight+1));
-        Debug.Log(x);
         return x;
     }   
 }

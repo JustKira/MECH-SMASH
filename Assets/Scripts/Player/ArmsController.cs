@@ -27,16 +27,13 @@ public class ArmsController : PartController
     }
     private void Update()
     {
-        RotateArm(reversed);
+  //      RotateArm(reversed);
+        if (Mathf.Abs(transform.position.x - worldPos.x) > 50)
+        {
+            return;
+        }
+
         worldPos = transform.position;
-    }
-    void rotateUp()
-    {
-        reversed = true;
-    }
-    void rotateDown()
-    {
-        reversed = false;
     }
 
     public void RotateArm(bool Reverse, bool fromTrigger = false)

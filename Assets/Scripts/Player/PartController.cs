@@ -13,17 +13,6 @@ public abstract class PartController : MonoBehaviour
     [HideInInspector]
     public BoxCollider2D hitBox;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public abstract void Deactivate();
     public abstract void Detach();
     private void OnTriggerEnter2D(Collider2D other)
