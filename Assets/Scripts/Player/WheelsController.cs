@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class WheelsController : PartController
 {
     [HideInInspector]
@@ -27,10 +26,7 @@ public class WheelsController : PartController
     }
     void Update()
     {
-        if (transform.parent != null && transform.parent.name.ToLower().Contains("mech"))
-        {
-            Move(reverse);  
-        }
+        
     }
 
     public void Move(bool Reverse)
@@ -44,7 +40,7 @@ public class WheelsController : PartController
             varStats.currentSpeed += accel * Time.smoothDeltaTime;
         }
         RaycastHit2D[] hits;
-        hits= Physics2D.BoxCastAll(transform.position,0.75f*new Vector2(transform.localScale.x*GetComponent<RectTransform>().rect.width, transform.localScale.y * GetComponent<RectTransform>().rect.height),transform.eulerAngles.x,transform.right,1.0f);
+        hits= Physics2D.BoxCastAll(transform.position,0.75f*new Vector2(transform.localScale.x*GetComponent<RectTransform>().rect.width, transform.localScale.y * GetComponent<RectTransform>().rect.height),transform.eulerAngles.x,transform.right,0.5f);
         foreach(var hit in hits)
         {
             if (hit.transform == transform||hit.transform==transform.parent|| hit.transform == null)
@@ -69,42 +65,16 @@ public class WheelsController : PartController
         }
         transform.parent.GetComponentInChildren<BodyController>().moving = true;
     }
-    public void Deactivate()
+    public override void Deactivate()
     {
         this.enabled = false;
         varStats.currentActivationHealth = 0;
     }
-    public void Detach()
+    public override void Detach()
     {
         varStats.currentAttachmentHealth = 0;
-        gameObject.AddComponent<Rigidbody2D>().isKinematic = false;
-        gameObject.GetComponent<Rigidbody2D>().mass = varStats.currentWeight;
         gameObject.GetComponent<Collider2D>().isTrigger = false;
         transform.parent.GetComponent<Rigidbody2D>().mass -= varStats.currentWeight;
-        transform.parent = null;
-    }
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.transform.parent != null && other.transform.parent.GetComponent<MechController>() != null)
-        {
-            /*
-            int damage = DamageCalculator.instance.CalculateDamage(varStats, other.GetComponent<VariableStats>());
-            if (varStats.currentActivationHealth > 0)
-            {
-                if (varStats.currentActivationHealth - damage <= 0)
-                {
-                    Deactivate();
-                    return;
-                }
-                varStats.currentActivationHealth -= damage;
-            }
-            else
-            {
-                if (varStats.currentAttachmentHealth - damage <= 0 && varStats.currentAttachmentHealth > 0)
-                    Detach();
-
-            }
-            */
-        }
+        transform.SetParent(null, true);
     }
 }
