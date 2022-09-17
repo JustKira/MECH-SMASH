@@ -26,7 +26,7 @@ public class HeadController : PartController
             varStats.currentAcceleration = transform.parent.GetComponent<MechController>().wheelsController.varStats.currentAcceleration;
         }
     }
-    public void Deactivate()
+    public override void Deactivate()
     {
         varStats.currentActivationHealth = 0;
         MechController mech = transform.parent.GetComponent<MechController>();
@@ -35,41 +35,12 @@ public class HeadController : PartController
         //mech.wheelsController.Deactivate();
     }
 
-    public void Detach()
+    public override void Detach()
     {
         transform.parent.GetComponent<Rigidbody2D>().mass -= varStats.currentWeight;
         varStats.currentAttachmentHealth = 0;
-        transform.parent = null;
-        gameObject.GetComponent<Rigidbody2D>().mass = varStats.currentWeight;
         gameObject.GetComponent<Collider2D>().isTrigger = false;
+        transform.SetParent(transform.parent.parent, true);
     }
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.transform.parent != transform.parent && other.transform != transform.parent && other.tag == "Mech")
-        {
-           /* if (other.transform.parent != null && other.transform.parent.GetComponent<MechController>() != null)
-            {
-                int damage = DamageCalculator.instance.CalculateDamage(varStats, other.GetComponent<VariableStats>());
-                if (varStats.currentActivationHealth > 0)
-                {
-                    if (varStats.currentActivationHealth - damage <= 0)
-                    {
-                        Deactivate();
-                        return;
-                    }
-                    varStats.currentActivationHealth -= damage;
-                }
-                else
-                {
-                    if (varStats.currentAttachmentHealth - damage <= 0 && varStats.currentAttachmentHealth > 0)
-                    {
-                        Detach();
-                        return;
-                    }
-                    varStats.currentAttachmentHealth -= damage;
-                }
-            }
-           */
-        }
-    }
+    
 }
